@@ -1,4 +1,4 @@
-package com.yemuc.blog;
+package com.csp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
