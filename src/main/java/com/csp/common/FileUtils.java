@@ -1,9 +1,6 @@
 package com.csp.common;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,9 +43,11 @@ public class FileUtils {
      * @Return java.lang.String
      **/
     public static String read(String fileName){
+
         FileReader fileReader;
         BufferedReader bufferedReader;
-        StringBuilder  sb = new StringBuilder();try{
+        StringBuilder  sb = new StringBuilder();
+        try{
             fileReader = new FileReader(fileName);
             bufferedReader = new BufferedReader(fileReader);
             String str;
@@ -65,7 +64,7 @@ public class FileUtils {
     }
 
     /**
-     * 写入到文件中
+     * 写入到文件中（追加）
      * @param str string
      * @param fileName 文件名
      */
@@ -81,6 +80,53 @@ public class FileUtils {
             out.close();
         }catch (Exception e){
             e.printStackTrace();
+        }
+
+    }
+
+
+
+    /**
+     * 写入到文件中
+     * @param str string
+     * @param fileName 文件名
+     * @param append 是否追加写入
+     */
+    public static void write(String str,String fileName,boolean append){
+        FileWriter out;
+        BufferedWriter bufferedWriter;
+        try{
+            out =  new FileWriter(fileName,append);
+            bufferedWriter = new BufferedWriter(out);
+            bufferedWriter.write(str);
+            //bufferedWriter.flush();
+            bufferedWriter.close();
+            out.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+
+    /***
+     * 获取路径下的所有文件
+     * @param path 路径
+     * @param fileList 文件列表
+     */
+    public static void getFileList(String path,List<File> fileList){
+        File file = new File(path);
+        if (file.exists()){
+            File[] files = file.listFiles();
+            if (files!=null){
+                for (File f:files){
+                    if (f.isFile()){
+                        fileList.add(f);
+                    }else if (f.isDirectory()){
+                        getFileList(f.getPath(),fileList);
+                    }
+                }
+            }
         }
 
     }
